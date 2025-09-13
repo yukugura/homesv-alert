@@ -1,17 +1,17 @@
 import os
-import sys
+import json
+import aiohttp
 import asyncio
+import datetime
 from ping3 import ping
 from dotenv import load_dotenv
 from gpiozero import OutputDevice
-
-# ターミナルのエンコーディングがUTF-8であることを保証
-sys.stdout.reconfigure(encoding='utf-8')
 
 # Load .env
 load_dotenv()
 HOSTS_STR = os.getenv("HOSTS")
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL"))
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 HOSTS = [host.strip() for host in HOSTS_STR.split(",")] # カンマ区切りで複数のホストをリストに変換＆空白除去
 
 # GPIO define
@@ -21,6 +21,44 @@ RELAY02 = 3
 # Relay define
 relay01 = OutputDevice(RELAY01, active_high=False)
 relay02 = OutputDevice(RELAY02, active_high=False)
+
+# Discord通知関数
+async def send_discord_notification(down_hosts):
+    if not WEBHOOK_URL:
+        print("WEBHOOK_URL is not set. Skipping Discord notification.")
+        return
+
+    if down_hosts:
+        title = "Server down alert!"
+        description = f"The following hosts are down: {', '.join(down_hosts)}"
+    
+    # Discord通知本文
+    payload = {
+        "username": "HomeSV-Alert",
+        "avatar_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzMqkpQ7vLUKvumbm6AFwTLQiCe7tlDb2Q0MAiISLsesZHnhj0kbRjB4U3se3UrDIHfIy0hlahyphenhyphenQu-V2tOR2LcV_lX7U8P5a8jtqPYv3Ah4L-JoYi8PhoaoehumGIdp2vrsX0rRyhXqwA/s800/mark_chuui.png",
+        "embeds": [
+            {
+                "title": title,
+                "description": description,
+                "color": 0xFF0000, # 赤色
+                "fields": [
+                    {
+                        "name": "Status",
+                        "value": "error",
+                        "inline": False
+                    }
+                ],
+                "timestamp": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).isoformat()
+            }
+        ]
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(WEBHOOK_URL, json=payload) as response:
+            if response.status == 204:
+                print("Discord通知が送信されました。")
+            else:
+                print(f"Discord通知の送信に失敗しました。ステータスコード: {response.status}")
 
 # hostがアクティブかどうかを確認する関数
 async def is_active(host):
