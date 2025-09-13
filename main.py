@@ -30,7 +30,7 @@ async def send_discord_notification(down_hosts):
 
     if down_hosts:
         title = "Server down alert!"
-        description = f"The following hosts are down: {', '.join(down_hosts)}"
+        description = f"The following hosts are down\n {', '.join(down_hosts)}"
     
     # Discord通知本文
     payload = {
