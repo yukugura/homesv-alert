@@ -30,7 +30,7 @@ async def send_discord_notification(down_hosts):
 
     if down_hosts:
         title = "Server down alert!"
-        description = f"The following hosts are down\n {', '.join(down_hosts)}"
+        description = f"The following hosts are down"
     
     # Discord通知本文
     payload = {
@@ -43,8 +43,8 @@ async def send_discord_notification(down_hosts):
                 "color": 0xFF0000, # 赤色
                 "fields": [
                     {
-                        "name": "Status",
-                        "value": "error",
+                        "name": "Hosts",
+                        "value": f"{', '.join(down_hosts)}",
                         "inline": False
                     }
                 ],
