@@ -35,7 +35,7 @@ async def send_discord_notification(down_hosts):
     # Discord通知本文
     payload = {
         "username": "HomeSV-Alert",
-        "avatar_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzMqkpQ7vLUKvumbm6AFwTLQiCe7tlDb2Q0MAiISLsesZHnhj0kbRjB4U3se3UrDIHfIy0hlahyphenhyphenQu-V2tOR2LcV_lX7U8P5a8jtqPYv3Ah4L-JoYi8PhoaoehumGIdp2vrsX0rRyhXqwA/s800/mark_chuui.png",
+        "avatar_url": "https://raw.githubusercontent.com/yukugura/homesv-alert/refs/heads/main/icon.png",
         "embeds": [
             {
                 "title": title,
