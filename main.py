@@ -1,9 +1,12 @@
 import os
-import time
+import sys
 import asyncio
 from ping3 import ping
 from dotenv import load_dotenv
 from gpiozero import OutputDevice
+
+# ターミナルのエンコーディングがUTF-8であることを保証
+sys.stdout.reconfigure(encoding='utf-8')
 
 # Load .env
 load_dotenv()
