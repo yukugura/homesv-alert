@@ -119,6 +119,7 @@ async def main():
                 # いずれかのホストが非アクティブな場合
                 control_relay('red')
                 down_hosts = [HOSTS[i] for i, res in enumerate(results) if not res]
+                await send_discord_notification(down_hosts)
                 print(f"いくつかのホストがダウンしています: {', '.join(down_hosts)}")
             else:
                 # すべてのホストが非アクティブな場合
