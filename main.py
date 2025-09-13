@@ -29,8 +29,8 @@ async def send_discord_notification(down_hosts):
         return
 
     if down_hosts:
-        title = "Server down alert!"
-        description = f"The following hosts are down"
+        title = "Down alert!"
+        description = "Some hosts have gone offline"
     
     # Discord通知本文
     payload = {
