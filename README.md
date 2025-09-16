@@ -36,7 +36,7 @@ pip install aiohttp
 pip install ping3
 ```
 ```
-pip install gpiozero
+pip install lgpio
 ```  
 その後、 main.py を実行してください。
 </details>
