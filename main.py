@@ -7,7 +7,7 @@ from ping3 import ping
 from dotenv import load_dotenv
 from gpiozero import OutputDevice
 
-# Load .env file
+# Load .env File
 load_dotenv()
 HOSTS_STR = os.getenv("HOSTS")
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL"))
